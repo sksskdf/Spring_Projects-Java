@@ -1,14 +1,24 @@
 MAVEN,GRADLE LIBRARY LIFECYCLE
 GRADLE - 버전 설정 , 라이브러리 불러오기
-TEMPLATE ENGINE
 
 {https://windosakacastle.tistory.com/12?category=691705
 (AWS사용하여 SPRING PROJECT 배포하기)}
 
 {bulid.gradle 프로젝트 설명 파일}
 
-annotation {
+MVC PATTERN {
+MODEL : 앱이 포함해야할 데이터의 정의
+VIEW : 데이터를 보여주는 방식
+CONTROLLER : 앱의 사용자로부터 입력에 대한 응답으로 로직을 포함.
+}
 
+TEMPLATE ENGINE{
+템플릿 양식과 특정 데이터 모델에 따른 입력 자료를 합성하여 결과 문서를 출력하는 소프트웨어(또는 소프트웨어 컴포넌트)를 말한다.
+}
+
+ANNOTATION {
+메타데이터(자신의 정보를 담고 있는 데이터)로써의 역할이 있다.
+프로그램 실행과정에서 데이터를 어떻게 처리할 것인지 알려주는 서브데이터라고 볼 수 있다.
 }
 
 {spring은 apache tomcat을 기본적으로 내장하고 있어서
@@ -42,4 +52,26 @@ slf4j,logback
 
 STATIC{
 변하지 않는, 움직이지 않는, 정적인 요소
+}
+
+SPRING , SPRING BOOT 이야기 {
+스프링은 자바엔터프라이즈 웹애플리케이션개발과 관련된
+전반의 생태계를 다 제공해준다.
+스프링부트는 스프링을 좀 더 편리하게 사용해주기 위해 만들어진 FRAME WORK
+}
+
+WELCOME PAGE {
+static 폴더에서 index.html을 제일 먼저 찾는다.
+WEB-APP의 첫 진입점은 CONTROLLER이다.
+controller가 될 자바 클래스는 @Controller 와 같이
+어노테이션을 선언해주어야 한다.
+@GetMapping은 괄호안의 문자열을 url과 매핑한다.
+컨트롤러에서 리턴 값으로 문자를 반환하면 viewResolver가 문자열과 일치하는 html파일을 찾아서 처리한다.
+}
+
+BUILD해서 JAR파일 실행시키기{
+명령프롬프트에서 프로젝트 폴더로 이동,
+gradlew build 명령어를 통해 build하기
+build-libs 폴더로 이동 후 
+java -jar (jar파일명).jar 로 실행
 }
