@@ -1,5 +1,4 @@
 MAVEN,GRADLE LIBRARY LIFECYCLE
-GRADLE - 버전 설정 , 라이브러리 불러오기
 
 {https://windosakacastle.tistory.com/12?category=691705
 (AWS사용하여 SPRING PROJECT 배포하기)}
@@ -13,7 +12,9 @@ CONTROLLER : 앱의 사용자로부터 입력에 대한 응답으로 로직을 �
 }
 
 TEMPLATE ENGINE{
-템플릿 양식과 특정 데이터 모델에 따른 입력 자료를 합성하여 결과 문서를 출력하는 소프트웨어(또는 소프트웨어 컴포넌트)를 말한다.
+VIEW의 동적인 처리를 위한 것.
+정적인 HTML파일을 사용자에게 보여주는 것이 아닌
+동적으로 변하는 데이터를 화면에 보여주기 위한 개념.
 }
 
 ANNOTATION {
@@ -39,7 +40,7 @@ Build and run 을 다 IntelliJ 로 바꾸어준다.
 GRADLE,MAVEN {
 일종의 BUILD TOOL이다.
 라이브러리간의 의존 관계를 관리해준다.
-
+네트워크를 통해 라이브러리를 관리해주는 도구.
 }
 
 EMBADED
@@ -74,4 +75,13 @@ BUILD해서 JAR파일 실행시키기{
 gradlew build 명령어를 통해 build하기
 build-libs 폴더로 이동 후 
 java -jar (jar파일명).jar 로 실행
+}
+
+API {
+@ResponseBody 어노테이션을 사용하면
+리턴하는 값을 그대로 http body에 표시한다.
+근데 리턴하는값이 객체일 경우 viewResolver가 아닌
+HttpMessageConverter가 동작하고 그 안에 있는
+JsonConverter가 동작하여
+객체가 json형식으로 표현된다.
 }
