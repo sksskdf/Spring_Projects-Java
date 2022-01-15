@@ -85,3 +85,28 @@ HttpMessageConverter가 동작하고 그 안에 있는
 JsonConverter가 동작하여
 객체가 json형식으로 표현된다.
 }
+
+동시성문제,공유되는 변수
+
+long,Long{
+원시타입은 성능과 메모리에 장점이 있다.
+Null을 다뤄야 하거나 제네릭 타입에서 사용되어야 한다면
+참조 타입을 사용한다.
+}
+
+TEST CASE {
+개발한 기능을 테스트하기 위해 기능을 JUnit이라는 프레임워크를 이용하여 테스트 실행을 한다.
+}
+
+회원 도메인과 리포지토리 만들기 {
+alt + insert를 누르면 constructor , getter,setter 등을 생성 할 수 있다.
+Optional은 JAVA8에 추가 된 클래스이다.
+null에 대한 처리때문에 사용한다.
+alt + enter 를 누르면 인터페이스의 메소드들을 불러올 수 있다.
+ctrl + space는 import를 할 수 있다.
+Member 정보를 저장 할 수 있게 Member 클래스를 만들어주고
+Repository 객체를 생성 후 Hashmap을 생성하고
+거기에 Member객체를 파라미터로 받는 메서드를 작성 후
+메서드안에서 Hashmap에 id값과 파라미터로 받은 member객체를 put해준다.
+}
+
