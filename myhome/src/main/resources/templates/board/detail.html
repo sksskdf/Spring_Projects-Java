@@ -2,11 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head('게시판')">
     <!-- fragments/common.html-->
-    <style>
-        a{
-            text-decoration: none;
-        }
-    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" th:replace="fragments/common :: menu('board')">
@@ -15,26 +10,22 @@
 
 <div class="container d-flex flex-column">
     <h2>게시판</h2>
-    <div>총 게시글 수 : <span th:text="${#lists.size(boards)}+'개'"></span></div>
-    <table class="table table-dark">
-        <thead>
-            <tr>
-                <th scope="col">번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">작성자</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr th:each="board : ${boards}">
-            <td th:text="${board.id}"></td>
-            <!--<td><a th:href="@{/board/form(id=${board.id})}" th:text="${board.title}"></a></td>-->
-            <td><a class="text-white text-decoration-none" th:href="@{/board/detail(id=${board.id})}" th:text="${board.title}"></a></td>
-            <td>admin</td>
-        </tr>
-        </tbody>
-    </table>
 
-    <a type="button" class="btn btn-dark align-self-end" th:href="@{/board/form}">글 쓰기</a>
+        <div th:object="${board}">
+            <input type="hidden" th:name="*{id}" />
+            <div class="mb-3">
+                <label for="title" class="form-label">제목</label>
+                <p type="text" th:text="*{title}" name="title" class="form-control" id="title" placeholder="글 제목">
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">내용</label>
+                <p th:text="*{content}" name="content" id="content" rows="3"></p>
+            </div>
+            <div class="text-end">
+                <a type="submit" th:href="@{/board/form(id=${board.id})}" class="btn btn-dark align-self-end">수정</a>
+                <a type="button" class="btn btn-dark align-self-end"  th:href="@{/board/list}">글 목록</a>
+            </div>
+        </div>
 </div>
 
 <!-- Optional JavaScript; choose one of the two! -->
