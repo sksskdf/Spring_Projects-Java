@@ -15,7 +15,18 @@
 
 <div class="container d-flex flex-column">
     <h2>게시판</h2>
-    <div>총 게시글 수 : <span th:text="${#lists.size(boards)}+'개'"></span></div>
+    <div class="d-flex justify-content-between">
+    <div>총 게시글 수 : <span th:text="${boards.totalElements}+'개'"></span></div>
+    <form class="row g-1" method="GET" th:action="@{/board/list}">
+        <div class="col-auto">
+            <label for="searchText" class="visually-hidden">검색</label>
+            <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-dark mb-3">검색</button>
+        </div>
+    </form>
+    </div>
     <table class="table table-dark">
         <thead>
             <tr>
@@ -33,6 +44,18 @@
         </tr>
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber+1} ? 'disabled'">
+                <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber - 1},searchText=${param.searchText})}">Previous</a>
+            </li>
+            <li class="page-item" th:classappend="${i == boards.pageable.pageNumber+1} ? 'disabled'" th:each="i : ${#numbers.sequence(startpage,endpage)}"><a class="page-link" th:href="@{/board/list(page=${i-1},searchText=${param.searchText})}" th:text="${i}">1</a></li>
+            <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber+1} ? 'disabled'">
+                <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1},searchText=${param.searchText})}">Next</a>
+            </li>
+        </ul>
+    </nav>
 
     <a type="button" class="btn btn-dark align-self-end" th:href="@{/board/form}">글 쓰기</a>
 </div>
