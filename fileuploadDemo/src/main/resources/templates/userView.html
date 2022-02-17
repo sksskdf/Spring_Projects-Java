@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="display: flex; flex-direction: column; align-items: center">
+<h1>회원 목록</h1>
+<!-- main view -->
+
+<div>
+    <div th:each="user : ${users}">
+        <p th:text="${user.name}"></p>
+        <!--<img th:src="/@{${user.photosImagePath}}" />-->
+        <img th:src="'/images/'+${user.photos}" width="300px"/>
+    </div>
+
+
+
+    <a href="/form">등록하기</a>
+</div>
+</body>
+</html>
