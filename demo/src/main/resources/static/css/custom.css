@@ -1,0 +1,66 @@
+@CHARSET "UTF-8";
+
+body{
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
+
+
+.nav-menu>div>a{
+	cursor: pointer;
+}
+
+.nav-menu {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.about>img{
+	width:1000px;
+}
+
+.section1{
+	margin-top: 400px;
+}
+
+.section1>h3{
+	margin-bottom: 100px;
+}
+
+.section2{
+	margin-top: 400px;
+}
+
+.section2>h3{
+	margin-bottom:50px;
+}
+
+.na {
+	position: fixed;
+	top:0px;
+	z-index: 2;
+	width:100%;
+	box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 1px, rgba(6, 24, 44, 0.65) 0px 3px 3px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+
+.totop{
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	border: 1px solid white;
+	border-radius: 100px;
+	box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+
+.topicon {
+	width:50px;
+}
+
+.hidden {
+	display: none;
+}
+
+.aa>div>img{
+	width: 700px;
+	height: 500px;
+}

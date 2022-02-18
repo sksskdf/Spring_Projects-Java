@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head(스마트휴먼케어-FAQ)">
+
+</head>
+<body>
+
+<header>
+	<nav th:replace="fragments/header :: header" class="navbar navbar-expand-lg navbar-light bg-light">
+		<!-- header fragment -->
+	</nav>
+</header>
+<!-- main section -->
+<div class="container d-flex flex-column" style="margin-top:270px;">
+
+
+    <h2 style="font-weight: 600;">FAQ</h2>
+
+    <div class="d-flex justify-content-end">
+    <form class="row g-1" method="GET" th:action="@{/faq/list}">
+        <div class="col-auto" style="width:250px">
+            <label for="searchText" class="visually-hidden">검색</label>
+            <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-dark mb-3">검색</button>
+        </div>
+    </form>
+    </div>
+    <table class="table">
+        <thead>
+            <tr th:if="!${emptyresult}">
+                <th scope="col">번호</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="faq : ${faqs}">
+            <td th:text="${faq.id}"></td>           
+            <td><a class="text-black text-decoration-none" th:href="@{/faq/detail(id=${faq.id})}" th:text="${faq.title}"></a></td>
+            <td th:text="${faq.username}"></td>
+        </tr>
+        <p th:if="${emptyresult}" style="font-size: 18px; font-weight: 600; padding-top:100px; padding-left: 50px">검색 결과가 없습니다.</p>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation example" style="margin-top:100px">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${1 == faqs.pageable.pageNumber+1} ? 'disabled'">
+                <a class="page-link" th:href="@{/faq/list(page=${faqs.pageable.pageNumber - 1},searchText=${param.searchText})}">이전</a>
+            </li>
+            <li class="page-item" th:if="${!emptyresult}" th:classappend="${i == faqs.pageable.pageNumber+1} ? 'disabled'" th:each="i : ${#numbers.sequence(startpage,endpage)}"><a class="page-link" th:href="@{/faq/list(page=${i-1},searchText=${param.searchText})}" th:text="${i}"></a></li>
+            <li class="page-item" th:classappend="${faqs.totalPages == faqs.pageable.pageNumber+1 || faqs.totalPages == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/faq/list(page=${faqs.pageable.pageNumber + 1},searchText=${param.searchText})}">다음</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="d-flex justify-content-end mb-2">
+        <a class="btn btn-dark me-3" th:href="@{/faq/list}" th:if="${!#strings.isEmpty(param.searchText)}">전체 글 보기</a>
+        <a type="button" class="btn btn-dark align-self-end" th:href="@{/faq/form}">글 쓰기</a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<script src="/js/index.js"></script>
+</body>
+</html>
