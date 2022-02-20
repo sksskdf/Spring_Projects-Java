@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.utils.FileUploadUtil;
+import com.example.demo.utils.FileStorageService;
+import com.example.demo.utils.MyFileNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -12,16 +13,14 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.FAQ;
 import com.example.demo.repository.FAQRepository;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 
@@ -29,32 +28,36 @@ import java.io.IOException;
 @RequestMapping("/faq")
 @RequiredArgsConstructor
 public class FAQController {
+    private static final String FILE_SERVICE_STORAGE_DIRECTORY = "files";
 
 	@Autowired
 	private FAQRepository faqRepository;
 
     @Autowired
-    ResourceLoader resourceLoader;
+    FileStorageService fileStorageService;
 
-    @GetMapping("/download")
-    public ResponseEntity<Resource> resouceFileDownload(@RequestParam String filename) throws IOException {
+
+    @GetMapping(FileStorageService.FILE_DOWNLOAD_API_ENDPOINT)
+    public ResponseEntity<Resource> resouceFileDownload(@PathVariable @RequestParam(required = true) String filename, HttpServletRequest request) throws IOException {
+        Resource resource = fileStorageService.loadFileAsResource(FILE_SERVICE_STORAGE_DIRECTORY, filename);
+
+        // Try to determine file's content type
+        String contentType = null;
         try {
-            Resource resource = resourceLoader.getResource("classpath:static/files/"+filename);
-            File file = resource.getFile();	//파일이 없는 경우 fileNotFoundException error가 난다.
-
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=\"" + filename + "\";")
-                    .header(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()))	//파일 사이즈 설정
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM.toString())	//바이너리 데이터로 받아오기 설정
-                    .body(resource);	//파일 넘기기
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest()
-                    .body(null);
-        } catch (Exception e ) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            throw new MyFileNotFoundException("Invalid content type!");
         }
+
+        // Fallback to the default content type if type could not be determined
+        if (contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 
 	@GetMapping("/list")
@@ -88,17 +91,18 @@ public class FAQController {
     }
 
     @PostMapping("/form")
-    public String FAQSubmit(FAQ faq,@RequestParam("files") MultipartFile files) throws IOException {
-        if(files.isEmpty()) {
+    public String FAQSubmit(FAQ faq,@RequestParam("files") MultipartFile file) throws IOException {
+        if(file.isEmpty()) {
             faqRepository.save(faq);
             return "redirect:/faq/list";
         }
-        System.out.println(files.getName());
-        String filename = StringUtils.cleanPath(files.getOriginalFilename());
-        String uploadDir = "src/main/resources/static/files/";
-        faq.setFilename(filename);
-        faq.setFileurl(uploadDir);
-        FileUploadUtil.saveFile(uploadDir, filename, files);
+        String fileName = fileStorageService.storeMultipartFile(file, FILE_SERVICE_STORAGE_DIRECTORY, file.getName() + "");
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/faq/" + FileStorageService.FILE_DOWNLOAD_API_ENDPOINT + "/")
+                .path(fileName)
+                .toUriString();
+        faq.setFilename(fileName);
+        faq.setFileurl(fileDownloadUri);
         faqRepository.save(faq);
 
 

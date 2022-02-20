@@ -24,7 +24,7 @@
         </div>
         <div class="mb-3" th:if="*{filename}">
             <label for="file" class="form-label">파일 첨부</label>
-            <a type="file" class="form-control" th:text="*{filename}" th:href="@{/faq/download(filename=*{filename})}" id="file" ></a>
+            <a type="file" class="form-control" th:text="*{filename}" th:href="@{/faq/downloadFile(filename=*{filename})}" id="file" ></a>
         </div>
         <div class="mb-3">
             <label for="content" class="form-label">내용</label>

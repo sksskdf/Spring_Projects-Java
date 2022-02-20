@@ -1,16 +1,17 @@
-package com.example.demo;
+package com.fileUpload.fileUpload;
 
-import com.example.demo.utils.FileStorageProperties;
+import com.fileUpload.fileUpload.Utils.FileStorageProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties({FileStorageProperties.class})
-public class DemoApplication {
+public class FileUploadApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(FileUploadApplication.class, args);
 	}
 
 }
+

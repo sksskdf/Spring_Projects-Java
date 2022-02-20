@@ -4,12 +4,14 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
 
 @Entity
+@Component
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class FAQ {
 	@Id
