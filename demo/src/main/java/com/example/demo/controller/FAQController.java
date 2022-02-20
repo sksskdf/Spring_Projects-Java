@@ -64,8 +64,9 @@ public class FAQController {
 	public String faq(Model model,@PageableDefault(size = 8, sort = "id",  direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(required = false,defaultValue = "") String searchText){
 		Page<FAQ> faqs = faqRepository.findByTitleContainingOrContentContaining(searchText,searchText,pageable);
-        int startPage = Math.max(1,faqs.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(faqs.getTotalPages(),faqs.getPageable().getPageNumber()+4);
+
+        int startPage = (((faqs.getPageable().getPageNumber()+1) -1 ) / 5 ) * 5 + 1;
+        int endPage = startPage+5-1;
         boolean emptyresult = false;
         if(faqs.getTotalPages() == 0){
             emptyresult = true;
