@@ -96,12 +96,16 @@ public class FAQController {
             faqRepository.save(faq);
             return "redirect:/faq/list";
         }
-        String fileName = fileStorageService.storeMultipartFile(file, FILE_SERVICE_STORAGE_DIRECTORY, file.getName() + "");
+        String filename = file.getOriginalFilename();
+        int idx = filename.lastIndexOf(".");
+        String filename_ = filename.substring(0,idx);
+        String fileName = fileStorageService.storeMultipartFile(file, FILE_SERVICE_STORAGE_DIRECTORY, filename_ + "");
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/faq/" + FileStorageService.FILE_DOWNLOAD_API_ENDPOINT + "/")
                 .path(fileName)
                 .toUriString();
-        faq.setFilename(fileName);
+
+        faq.setFilename(file.getOriginalFilename());
         faq.setFileurl(fileDownloadUri);
         faqRepository.save(faq);
 
