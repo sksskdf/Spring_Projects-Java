@@ -20,7 +20,7 @@ public class User {
     private String password;
     @Column(name = "name",nullable = false,length = 20)
     private String name;
-    
+
 
 
 }
