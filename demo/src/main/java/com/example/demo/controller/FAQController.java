@@ -66,7 +66,7 @@ public class FAQController {
 		Page<FAQ> faqs = faqRepository.findByTitleContainingOrContentContaining(searchText,searchText,pageable);
 
         int startPage = (((faqs.getPageable().getPageNumber()+1) -1 ) / 5 ) * 5 + 1;
-        int endPage = startPage+5-1;
+        int endPage = Math.min(startPage+5-1,faqs.getTotalPages());
         boolean emptyresult = false;
         if(faqs.getTotalPages() == 0){
             emptyresult = true;
@@ -119,6 +119,13 @@ public class FAQController {
         FAQ faq = faqRepository.findById(id).orElse(null);
         model.addAttribute("faq",faq);
         return "faq/detail";
+    }
+
+    @PostMapping("/detail")
+    public String detail(FAQ faq,Long id){
+        System.out.println(faq);
+        faqRepository.save(faq);
+        return "redirect:/faq/detail?id="+id;
     }
 
     @GetMapping("/delete")

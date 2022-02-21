@@ -33,4 +33,9 @@ public class FAQ {
     @Column(nullable = true,length = 100)
     private String fileurl;
 
+    @Column(nullable = true,length = 10)
+    private String reply_username;
+
+    @Column(nullable = true,length = 100)
+    private String reply_content;
 }

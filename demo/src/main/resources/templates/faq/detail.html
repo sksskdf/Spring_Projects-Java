@@ -36,6 +36,41 @@
             <a type="button" class="btn btn-dark align-self-end"  th:href="@{/faq/list}">글 목록</a>
         </div>
     </div>
+    <div>
+        <h4 class="mt-5 mb-5" style="font-weight: 600">답글</h4>
+        <form th:action="@{/faq/detail}" th:object="${faq}" method="post" th:if="${faq.reply_content == null}">
+            <div>
+                <input type="hidden" name="id" th:field="*{id}"  />
+                <input type="hidden" name="title" th:field="*{title}" />
+                <input type="hidden" name="username" th:field="*{username}" />
+                <input type="hidden" name="content" th:field="*{content}" />
+                <input type="hidden" name="filename" th:field="*{filename}" />
+                <input type="hidden" name="fileurl" th:field="*{fileurl}" />
+                <div class="mb-3">
+                    <label for="reply_username" class="form-label">작성자</label>
+                    <input readonly type="text" th:value="admin"  name="reply_username" class="form-control" id="reply_username">
+                </div>
+                <div class="mb-3">
+                    <label for="reply_content" class="form-label">답글</label>
+                    <input th:text="*{reply_content}" th:field="*{reply_content}" name="reply_content" class="form-control" id="reply_content" rows="1"></input>
+                </div>
+                <div class="text-end">
+                    <!--<button type="submit" th:href="@{/faq/detail(id=${faq.id})}" class="btn btn-dark align-self-end">답글 등록</button>-->
+                    <button type="submit" class="btn btn-dark align-self-end">답글 등록</button>
+                </div>
+            </div>
+        </form>
+        <div th:object="${faq}" th:if="${faq.reply_content != null}">
+            <div class="mb-3">
+                <label for="reply_username1" class="form-label">작성자</label>
+                <p type="text" th:text="*{reply_username}" name="username" class="form-control" id="reply_username1">
+            </div>
+            <div class="mb-3">
+                <label for="reply_content1" class="form-label">답글</label>
+                <p th:text="*{reply_content}" name="content" class="form-control" id="reply_content1" rows="1" style="min-height:200px"></p>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
