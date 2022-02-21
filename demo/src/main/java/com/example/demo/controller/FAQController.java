@@ -124,6 +124,9 @@ public class FAQController {
     @PostMapping("/detail")
     public String detail(FAQ faq,Long id){
         System.out.println(faq);
+        if(faq.getReply_content() == null || faq.getReply_content() == ""){
+            return "redirect:/faq/detail?id="+id;
+        }
         faqRepository.save(faq);
         return "redirect:/faq/detail?id="+id;
     }
