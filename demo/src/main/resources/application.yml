@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/demo?serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3306/demo?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
     username: ${db.uid:demo_user}
     password: ${db.pwd:1234}
     driver-class-name: com.mysql.jdbc.Driver
