@@ -26,7 +26,6 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/faq")
-@RequiredArgsConstructor
 public class FAQController {
     private static final String FILE_SERVICE_STORAGE_DIRECTORY = "files";
 
@@ -38,7 +37,7 @@ public class FAQController {
 
 
     @GetMapping(FileStorageService.FILE_DOWNLOAD_API_ENDPOINT)
-    public ResponseEntity<Resource> resouceFileDownload(@PathVariable @RequestParam(required = true) String filename, HttpServletRequest request) throws IOException {
+    public ResponseEntity<Resource> resourceFileDownload(@PathVariable @RequestParam(required = true) String filename, HttpServletRequest request) throws IOException {
         Resource resource = fileStorageService.loadFileAsResource(FILE_SERVICE_STORAGE_DIRECTORY, filename);
 
         // Try to determine file's content type
@@ -64,9 +63,9 @@ public class FAQController {
 	public String faq(Model model,@PageableDefault(size = 8, sort = "id",  direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(required = false,defaultValue = "") String searchText){
 		Page<FAQ> faqs = faqRepository.findByTitleContainingOrContentContaining(searchText,searchText,pageable);
-
+        System.out.println(pageable);
         int startPage = (((faqs.getPageable().getPageNumber()+1) -1 ) / 5 ) * 5 + 1;
-        int endPage = Math.min(startPage+5-1,faqs.getTotalPages());
+        int endPage = Math.min(startPage+5-1,faqs.getTotalPages()); //총 페이지가 13까지 밖에 없는데 15가 endpage가 되면 안되기 때문에 min
         boolean emptyresult = false;
         if(faqs.getTotalPages() == 0){
             emptyresult = true;

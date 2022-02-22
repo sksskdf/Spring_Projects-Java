@@ -10,6 +10,8 @@ let url = location.href.split(location.host);
 
 function href(){
     if(url[1] != "/"){
+        //url[0] = http:// 가 붙은 url을 return
+        //url[1] = http:// 가 분리된 url을 return
         location.href="/";
     }
 }
